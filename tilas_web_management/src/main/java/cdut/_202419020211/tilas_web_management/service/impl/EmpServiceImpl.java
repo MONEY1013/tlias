@@ -23,4 +23,16 @@ public class EmpServiceImpl implements EmpService {
         List<Emp> rows = empMapper.page((page - 1) * size, size);
         return new PageResult(total, rows);
     }
+
+    @Override
+    public void delete(Integer[] ids) {
+        for (Integer id : ids) {
+            empMapper.delete(id);
+        }
+    }
+
+    @Override
+    public void save(String name, String gender, Integer deptId, String job, Date entryDate,String avatar) {
+        empMapper.save(name,gender,deptId,job,entryDate,avatar);
+    }
 }

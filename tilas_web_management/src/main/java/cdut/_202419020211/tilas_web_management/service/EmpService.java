@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface EmpService {
     PageResult page(Integer page, Integer pageSize);
+
+    void delete(Integer[] ids);
+
+    void save(String name, String gender, Integer deptId, String job, Date entryDate,String avatar);
 }

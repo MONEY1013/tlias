@@ -3,11 +3,12 @@ package cdut._202419020211.tilas_web_management.pojo;
 public class EmpResult {
     int code;
     String msg;
-    PageResult data;
+    PageResult pageData;
+    Object data;
 
     public EmpResult success(PageResult data) {
         EmpResult empResult = new EmpResult();
-        this.data = data;
+        this.pageData = data;
         this.msg = "success";
         this.code = 1;
         return empResult;
@@ -16,6 +17,13 @@ public class EmpResult {
         EmpResult empResult = new EmpResult();
         this.msg = "success";
         this.code = 1;
+        return empResult;
+    }
+    public EmpResult success(Object data) {
+        EmpResult empResult = new EmpResult();
+        this.msg = "success";
+        this.code = 1;
+        this.data = data;
         return empResult;
     }
     public EmpResult fail() {
