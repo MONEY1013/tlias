@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>部门管理 - 系统管理</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 自定义样式增强 */
+        .dept-management {
+            padding: 0;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .search-section {
+            background: #f8f9fa;
+            padding: 20px 24px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .search-form {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        th {
+            background: #f8f9fa;
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        td {
+            padding: 16px 12px;
+            border-bottom: 1px solid #e9ecef;
+            color: #495057;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .modal-body {
+            padding: 24px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 20px 24px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 0.5; }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #adb5bd;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+<div class="content-wrapper fade-in dept-management">
+    <!-- 页面标题和操作按钮 -->
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <h3 style="margin: 0; color: #343a40;">
+                    <i class="fas fa-building" style="margin-right: 8px; color: #007bff;"></i>
+                    部门管理
+                </h3>
+                <p style="margin: 4px 0 0 0; color: #6c757d; font-size: 14px;">管理系统中的部门信息</p>
+            </div>
+            <div>
+                <button class="btn btn-outline" onclick="searchDepts()">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+                <button class="btn btn-primary" onclick="openAddModal()">
+                    <i class="fas fa-plus"></i> 新增部门
+                </button>
+            </div>
+        </div>
+
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-form">
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <label style="display: block; margin-bottom: 4px; font-size: 12px; color: #6c757d;">按部门名称搜索</label>
+                        <input type="text" class="form-control" id="search-name" placeholder="请输入部门名称" style="width: 200px;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 4px; font-size: 12px; color: #6c757d;">按ID精确查询</label>
+                        <input type="number" class="form-control" id="search-id" placeholder="请输入部门ID" style="width: 150px;">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: flex-end;">
+                    <button class="btn btn-primary" onclick="searchDepts()">
+                        <i class="fas fa-search"></i> 查询
+                    </button>
+                    <button class="btn btn-outline" onclick="searchById()">
+                        <i class="fas fa-filter"></i> ID查询
+                    </button>
+                    <button class="btn btn-outline" onclick="resetSearch()">
+                        <i class="fas fa-redo"></i> 重置
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 表格 -->
+        <div class="card-body" style="padding: 0;">
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th width="80">序号</th>
+                        <th>部门名称</th>
+                        <th width="180">创建时间</th>
+                        <th width="180">最后修改时间</th>
+                        <th width="150">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="dept-table-body">
+                    <tr>
+                        <td colspan="5" class="loading">
+                            <i class="fas fa-spinner"></i><br>
+                            正在加载部门数据...
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加/编辑模态框 -->
+    <div class="modal" id="dept-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title" style="margin: 0;">添加部门</h3>
+                <button class="btn btn-outline" onclick="closeModal()" style="padding: 8px;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="dept-form">
+                    <input type="hidden" id="dept-id">
+                    <div class="form-group">
+                        <label for="dept-name">
+                            <i class="fas fa-building" style="margin-right: 6px; color: #007bff;"></i>
+                            部门名称 *
+                        </label>
+                        <input type="text" class="form-control" id="dept-name" placeholder="请输入部门名称" required>
+                        <small style="color: #6c757d; font-size: 12px; margin-top: 4px;">部门名称不能为空</small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="saveDept()" id="save-btn">
+                    <i class="fas fa-save"></i> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/common.js"></script>
+<script>
+    let editingId = null;
+    let allDepts = [];
+
+    // 页面加载时获取部门列表
+    async function loadDepts() {
+        try {
+            const result = await API.dept.list();
+            if (result.code === 1) {
+                allDepts = result.data;
+                renderDeptTable(allDepts);
+            } else {
+                throw new Error(result.msg || '获取部门列表失败');
+            }
+        } catch (error) {
+            console.error('加载部门列表失败:', error);
+            renderEmptyState('加载失败，请检查网络连接或后端服务');
+            Utils.showMessage('加载部门列表失败: ' + error.message, 'error');
+        }
+    }
+
+    // 渲染表格
+    function renderDeptTable(depts) {
+        const tbody = document.getElementById('dept-table-body');
+
+        if (depts.length === 0) {
+            renderEmptyState('暂无部门数据');
+            return;
+        }
+
+        tbody.innerHTML = depts.map(dept => `
+            <tr>
+                <td><strong>${dept.id}</strong></td>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-building" style="color: #007bff;"></i>
+                        <span>${dept.name}</span>
+                    </div>
+                </td>
+                <td>${Utils.formatDateTime(dept.createTime) || '-'}</td>
+                <td>${Utils.formatDateTime(dept.updateTime) || '-'}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="btn btn-outline btn-sm" onclick="openEditModal(${dept.id})" title="编辑部门">
+                            <i class="fas fa-edit"></i> 编辑
+                        </button>
+                        <button class="btn btn-outline btn-sm" onclick="deleteDept(${dept.id})" 
+                                style="color: #dc3545; border-color: #dc3545;" title="删除部门">
+                            <i class="fas fa-trash"></i> 删除
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    // 渲染空状态
+    function renderEmptyState(message) {
+        const tbody = document.getElementById('dept-table-body');
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <h4 style="margin: 8px 0; color: #6c757d;">${message}</h4>
+                    <p style="color: #adb5bd; margin: 0;">点击"新增部门"按钮添加第一个部门</p>
+                </td>
+            </tr>
+        `;
+    }
+
+    // 打开添加模态框
+    function openAddModal() {
+        editingId = null;
+        document.getElementById('modal-title').textContent = '新增部门';
+        document.getElementById('dept-id').value = '';
+        document.getElementById('dept-name').value = '';
+        document.getElementById('save-btn').innerHTML = '<i class="fas fa-plus"></i> 新增';
+        document.getElementById('dept-modal').classList.add('show');
+        
+        // 自动聚焦到输入框
+        setTimeout(() => {
+            document.getElementById('dept-name').focus();
+        }, 100);
+    }
+
+    // 打开编辑模态框
+    async function openEditModal(id) {
+        try {
+            const result = await API.dept.getById(id);
+            if (result.code === 1 && result.data) {
+                editingId = id;
+                document.getElementById('modal-title').textContent = '编辑部门';
+                document.getElementById('dept-id').value = result.data.id;
+                document.getElementById('dept-name').value = result.data.name;
+                document.getElementById('save-btn').innerHTML = '<i class="fas fa-save"></i> 保存';
+                document.getElementById('dept-modal').classList.add('show');
+                
+                // 自动聚焦到输入框
+                setTimeout(() => {
+                    document.getElementById('dept-name').focus();
+                }, 100);
+            } else {
+                throw new Error(result.msg || '获取部门信息失败');
+            }
+        } catch (error) {
+            console.error('获取部门信息失败:', error);
+            Utils.showMessage('获取部门信息失败: ' + error.message, 'error');
+        }
+    }
+
+    // 关闭模态框
+    function closeModal() {
+        document.getElementById('dept-modal').classList.remove('show');
+    }
+
+    // 保存部门
+    async function saveDept() {
+        const name = document.getElementById('dept-name').value.trim();
+
+        if (!name) {
+            Utils.showMessage('请输入部门名称', 'error');
+            document.getElementById('dept-name').focus();
+            return;
+        }
+
+        try {
+            let result;
+            if (editingId) {
+                // 编辑部门
+                result = await API.dept.update({ id: editingId, name });
+            } else {
+                // 新增部门
+                result = await API.dept.add({ name });
+            }
+
+            if (result.code === 1) {
+                Utils.showMessage(editingId ? '部门修改成功' : '部门新增成功', 'success');
+                closeModal();
+                await loadDepts(); // 重新加载数据
+            } else {
+                throw new Error(result.msg || '操作失败');
+            }
+        } catch (error) {
+            console.error('保存部门失败:', error);
+            Utils.showMessage('操作失败: ' + error.message, 'error');
+        }
+    }
+
+    // 删除部门
+    async function deleteDept(id) {
+        const dept = allDepts.find(d => d.id === id);
+        const confirmed = await Utils.confirm(`确定要删除部门 "${dept?.name || '该部门'}" 吗？此操作不可撤销。`);
+        if (!confirmed) return;
+
+        try {
+            const result = await API.dept.delete(id);
+            if (result.code === 1) {
+                Utils.showMessage('部门删除成功', 'success');
+                await loadDepts(); // 重新加载数据
+            } else {
+                throw new Error(result.msg || '删除失败');
+            }
+        } catch (error) {
+            console.error('删除部门失败:', error);
+            Utils.showMessage('删除失败: ' + error.message, 'error');
+        }
+    }
+
+    // 搜索部门 - 调用后端接口
+    async function searchDepts() {
+        const name = document.getElementById('search-name').value.trim();
+        
+        if (name) {
+            try {
+                // 显示加载状态
+                const tbody = document.getElementById('dept-table-body');
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="loading">
+                            <i class="fas fa-spinner"></i><br>
+                            正在搜索部门名称: "${name}"...
+                        </td>
+                    </tr>
+                `;
+
+                // 调用后端搜索接口
+                const result = await API.dept.searchByName(name);
+                
+                if (result.code === 1) {
+                    renderDeptTable(result.data);
+                    
+                    if (result.data.length === 0) {
+                        Utils.showMessage(`未找到包含 "${name}" 的部门`, 'info');
+                    } else {
+                        Utils.showMessage(`找到 ${result.data.length} 个匹配的部门`, 'success');
+                    }
+                } else {
+                    throw new Error(result.msg || '搜索失败');
+                }
+            } catch (error) {
+                console.error('搜索部门失败:', error);
+                renderEmptyState('搜索失败，请重试');
+                Utils.showMessage('搜索失败: ' + error.message, 'error');
+            }
+        } else {
+            // 如果没有输入名称，显示所有部门
+            loadDepts();
+        }
+    }
+
+    // 重置搜索
+    function resetSearch() {
+        document.getElementById('search-name').value = '';
+        document.getElementById('search-id').value = '';
+        renderDeptTable(allDepts);
+    }
+
+    // 按ID精确查询 - 调用后端接口
+    async function searchById() {
+        const id = document.getElementById('search-id').value.trim();
+        
+        if (!id) {
+            Utils.showMessage('请输入部门ID', 'warning');
+            document.getElementById('search-id').focus();
+            return;
+        }
+
+        try {
+            // 显示加载状态
+            const tbody = document.getElementById('dept-table-body');
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="loading">
+                        <i class="fas fa-spinner"></i><br>
+                        正在查询部门ID: ${id}...
+                    </td>
+                </tr>
+            `;
+
+            const result = await API.dept.getById(parseInt(id));
+            
+            if (result.code === 1 && result.data) {
+                // 找到部门，显示单条记录
+                renderDeptTable([result.data]);
+                Utils.showMessage(`成功找到部门: ${result.data.name}`, 'success');
+            } else {
+                // 未找到部门
+                renderEmptyState(`未找到ID为 ${id} 的部门`);
+                Utils.showMessage(`未找到ID为 ${id} 的部门`, 'info');
+            }
+        } catch (error) {
+            console.error('ID查询失败:', error);
+            renderEmptyState(`查询失败: ${error.message}`);
+            Utils.showMessage(`ID查询失败: ${error.message}`, 'error');
+        }
+    }
+
+    // 页面初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        loadDepts();
+        
+        // 点击模态框外部关闭
+        document.getElementById('dept-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // 回车键提交表单
+        document.getElementById('dept-name').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                saveDept();
+            }
+        });
+        
+        // 搜索框回车搜索
+        document.getElementById('search-name').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchDepts();
+            }
+        });
+        
+        // ID查询框回车搜索
+        document.getElementById('search-id').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchById();
+            }
+        });
+    });
+</script>
+</body>
+</html>

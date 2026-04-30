@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>员工管理 - 系统管理</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 员工管理样式 */
+        .emp-management {
+            padding: 0;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .search-section {
+            background: #f8f9fa;
+            padding: 20px 24px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .search-form {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+        
+        .search-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .search-group label {
+            font-size: 12px;
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        .date-range {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .date-range span {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        th {
+            background: #f8f9fa;
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        td {
+            padding: 16px 12px;
+            border-bottom: 1px solid #e9ecef;
+            color: #495057;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e9ecef;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .checkbox-cell {
+            width: 40px;
+            text-align: center;
+        }
+        
+        .checkbox-cell input {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .batch-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 12px 24px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .pagination-info {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .page-size-select {
+            padding: 6px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .page-input {
+            width: 60px;
+            padding: 6px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .modal-body {
+            padding: 24px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 20px 24px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        .avatar-upload {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .avatar-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e9ecef;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 0.5; }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #adb5bd;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .selected-count {
+            color: #007bff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="content-wrapper fade-in emp-management">
+    <!-- 页面标题和操作按钮 -->
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <h3 style="margin: 0; color: #343a40;">
+                    <i class="fas fa-users" style="margin-right: 8px; color: #007bff;"></i>
+                    员工管理
+                </h3>
+                <p style="margin: 4px 0 0 0; color: #6c757d; font-size: 14px;">管理系统中的员工信息</p>
+            </div>
+            <div>
+                <button class="btn btn-outline" onclick="searchEmps()">
+                    <i class="fas fa-search"></i> 查询
+                </button>
+                <button class="btn btn-outline" onclick="resetSearch()">
+                    <i class="fas fa-redo"></i> 清空
+                </button>
+                <button class="btn btn-primary" onclick="openAddModal()">
+                    <i class="fas fa-plus"></i> 新增员工
+                </button>
+            </div>
+        </div>
+
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-form">
+                <div class="search-group">
+                    <label>员工姓名</label>
+                    <input type="text" class="form-control" id="search-name" placeholder="请输入员工姓名" style="width: 200px;">
+                </div>
+                <div class="search-group">
+                    <label>性别</label>
+                    <select class="form-control" id="search-gender" style="width: 120px;">
+                        <option value="">全部</option>
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                    </select>
+                </div>
+                <div class="search-group">
+                    <label>入职时间范围</label>
+                    <div class="date-range">
+                        <input type="date" class="form-control" id="search-entry-start" style="width: 150px;">
+                        <span>至</span>
+                        <input type="date" class="form-control" id="search-entry-end" style="width: 150px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 批量操作栏 -->
+        <div class="batch-actions" id="batch-actions" style="display: none;">
+            <span class="selected-count" id="selected-count">已选择 0 项</span>
+            <button class="btn btn-outline btn-sm" onclick="selectAll()">
+                <i class="fas fa-check-square"></i> 全选
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="selectNone()">
+                <i class="fas fa-square"></i> 取消全选
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="batchDelete()">
+                <i class="fas fa-trash"></i> 批量删除
+            </button>
+        </div>
+
+        <!-- 表格 -->
+        <div class="card-body" style="padding: 0;">
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th width="40" class="checkbox-cell">
+                            <input type="checkbox" id="select-all" onchange="toggleSelectAll(this)">
+                        </th>
+                        <th width="80">ID</th>
+                        <th>姓名</th>
+                        <th width="80">性别</th>
+                        <th width="80">头像</th>
+                        <th>所属部门</th>
+                        <th>职位</th>
+                        <th width="120">入职时间</th>
+                        <th width="120">最后修改时间</th>
+                        <th width="150">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="emp-table-body">
+                    <tr>
+                        <td colspan="10" class="loading">
+                            <i class="fas fa-spinner"></i><br>
+                            正在加载员工数据...
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 分页 -->
+        <div class="pagination">
+            <div class="pagination-info" id="pagination-info">
+                共 0 条记录
+            </div>
+            <div class="pagination-controls">
+                <select class="page-size-select" id="page-size" onchange="changePageSize()">
+                    <option value="10">10条/页</option>
+                    <option value="20" selected>20条/页</option>
+                    <option value="50">50条/页</option>
+                    <option value="100">100条/页</option>
+                </select>
+                <span>前往</span>
+                <input type="number" class="page-input" id="page-input" min="1" value="1">
+                <span>页</span>
+                <button class="btn btn-outline btn-sm" onclick="goToPage()">确定</button>
+                <button class="btn btn-outline btn-sm" onclick="prevPage()" id="prev-btn">
+                    <i class="fas fa-chevron-left"></i> 上一页
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="nextPage()" id="next-btn">
+                    下一页 <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加/编辑模态框 -->
+    <div class="modal" id="emp-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title" style="margin: 0;">添加员工</h3>
+                <button class="btn btn-outline" onclick="closeModal()" style="padding: 8px;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="emp-form">
+                    <input type="hidden" id="emp-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="emp-name">
+                                <i class="fas fa-user" style="margin-right: 6px; color: #007bff;"></i>
+                                姓名 *
+                            </label>
+                            <input type="text" class="form-control" id="emp-name" placeholder="请输入员工姓名" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="emp-gender">
+                                <i class="fas fa-venus-mars" style="margin-right: 6px; color: #007bff;"></i>
+                                性别 *
+                            </label>
+                            <select class="form-control" id="emp-gender" required>
+                                <option value="">请选择性别</option>
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="emp-dept">
+                                <i class="fas fa-building" style="margin-right: 6px; color: #007bff;"></i>
+                                所属部门 *
+                            </label>
+                            <select class="form-control" id="emp-dept" required>
+                                <option value="">请选择部门</option>
+                                <!-- 部门选项将通过JavaScript动态加载 -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="emp-job">
+                                <i class="fas fa-briefcase" style="margin-right: 6px; color: #007bff;"></i>
+                                职位 *
+                            </label>
+                            <input type="text" class="form-control" id="emp-job" placeholder="请输入职位" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="emp-entry-date">
+                            <i class="fas fa-calendar-alt" style="margin-right: 6px; color: #007bff;"></i>
+                            入职时间 *
+                        </label>
+                        <input type="date" class="form-control" id="emp-entry-date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-image" style="margin-right: 6px; color: #007bff;"></i>
+                            头像
+                        </label>
+                        <div class="avatar-upload">
+                            <img id="avatar-preview" class="avatar-preview" src="../imgs/01.png" alt="头像预览">
+                            <div>
+                                <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+                                <button type="button" class="btn btn-outline" onclick="document.getElementById('avatar-upload').click()">
+                                    <i class="fas fa-upload"></i> 选择图片
+                                </button>
+                                <div style="font-size: 12px; color: #6c757d; margin-top: 4px;">
+                                    支持 JPG、PNG 格式，大小不超过 2MB
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="saveEmp()" id="save-btn">
+                    <i class="fas fa-save"></i> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/common.js"></script>
+<script>
+    let editingId = null;
+    let currentPage = 1;
+    let pageSize = 20;
+    let totalCount = 0;
+    let selectedIds = new Set();
+    let allDepts = [];
+
+    // 页面加载时获取员工列表和部门列表
+    async function loadEmps() {
+        try {
+            // 先加载部门列表
+            const deptResult = await API.dept.list();
+            if (deptResult.code === 1) {
+                allDepts = deptResult.data;
+                populateDeptSelect();
+            }
+
+            // 加载员工列表
+            const result = await API.emp.list({
+                page: currentPage,
+                size: pageSize
+            });
+            
+            if (result.code === 1) {
+                renderEmpTable(result.data.rows || result.data);
+                updatePagination(result.data.total || result.data.length);
+            } else {
+                throw new Error(result.msg || '获取员工列表失败');
+            }
+        } catch (error) {
+            console.error('加载员工列表失败:', error);
+            renderEmptyState('加载失败，请检查网络连接或后端服务');
+            Utils.showMessage('加载员工列表失败: ' + error.message, 'error');
+        }
+    }
+
+    // 填充部门选择框
+    function populateDeptSelect() {
+        const deptSelect = document.getElementById('emp-dept');
+        deptSelect.innerHTML = '<option value="">请选择部门</option>' + 
+            allDepts.map(dept => `<option value="${dept.id}">${dept.name}</option>`).join('');
+    }
+
+    // 渲染表格
+    function renderEmpTable(emps) {
+        const tbody = document.getElementById('emp-table-body');
+
+        if (emps.length === 0) {
+            renderEmptyState('暂无员工数据');
+            return;
+        }
+
+        tbody.innerHTML = emps.map(emp => `
+            <tr>
+                <td class="checkbox-cell">
+                    <input type="checkbox" value="${emp.id}" onchange="toggleSelect(${emp.id}, this.checked)">
+                </td>
+                <td><strong>${emp.id}</strong></td>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-user" style="color: #007bff;"></i>
+                        <span>${emp.name}</span>
+                    </div>
+                </td>
+                <td>${Utils.getGender(emp.gender)}</td>
+                <td>
+                    <img src="${emp.avatar || '../imgs/01.png'}" class="avatar" alt="头像"
+                         onerror="this.src='../imgs/01.png'">
+                </td>
+                <td>${emp.deptName || '-'}</td>
+                <td>${emp.job || '-'}</td>
+                <td>${Utils.formatDate(emp.entryDate)}</td>
+                <td>${Utils.formatDateTime(emp.updateTime)}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="btn btn-outline btn-sm" onclick="openEditModal(${emp.id})" title="编辑员工">
+                            <i class="fas fa-edit"></i> 编辑
+                        </button>
+                        <button class="btn btn-outline btn-sm" onclick="deleteEmp(${emp.id})" 
+                                style="color: #dc3545; border-color: #dc3545;" title="删除员工">
+                            <i class="fas fa-trash"></i> 删除
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+
+        updateBatchActions();
+    }
+
+    // 渲染空状态
+    function renderEmptyState(message) {
+        const tbody = document.getElementById('emp-table-body');
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="10" class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <h4 style="margin: 8px 0; color: #6c757d;">${message}</h4>
+                    <p style="color: #adb5bd; margin: 0;">点击"新增员工"按钮添加第一个员工</p>
+                </td>
+            </tr>
+        `;
+        
+        document.getElementById('batch-actions').style.display = 'none';
+    }
+
+    // 搜索员工
+    async function searchEmps() {
+        const name = document.getElementById('search-name').value.trim();
+        const gender = document.getElementById('search-gender').value;
+        const entryStart = document.getElementById('search-entry-start').value;
+        const entryEnd = document.getElementById('search-entry-end').value;
+
+        const params = {
+            page: 1,
+            size: pageSize
+        };
+
+        if (name) params.name = name;
+        if (gender) params.gender = gender;
+        if (entryStart) params.entryStart = entryStart;
+        if (entryEnd) params.entryEnd = entryEnd;
+
+        try {
+            const tbody = document.getElementById('emp-table-body');
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="10" class="loading">
+                        <i class="fas fa-spinner"></i><br>
+                        正在搜索员工...
+                    </td>
+                </tr>
+            `;
+
+            const result = await API.emp.list(params);
+            
+            if (result.code === 1) {
+                currentPage = 1;
+                renderEmpTable(result.data.rows || result.data);
+                updatePagination(result.data.total || result.data.length);
+                
+                const count = result.data.rows ? result.data.rows.length : result.data.length;
+                if (count === 0) {
+                    Utils.showMessage('未找到符合条件的员工', 'info');
+                } else {
+                    Utils.showMessage(`找到 ${count} 个员工`, 'success');
+                }
+            } else {
+                throw new Error(result.msg || '搜索失败');
+            }
+        } catch (error) {
+            console.error('搜索员工失败:', error);
+            renderEmptyState('搜索失败，请重试');
+            Utils.showMessage('搜索失败: ' + error.message, 'error');
+        }
+    }
+
+    // 清空搜索表单
+    function resetSearch() {
+        document.getElementById('search-name').value = '';
+        document.getElementById('search-gender').value = '';
+        document.getElementById('search-entry-start').value = '';
+        document.getElementById('search-entry-end').value = '';
+        
+        currentPage = 1;
+        loadEmps();
+    }
+
+    // 分页相关函数
+    function updatePagination(total) {
+        totalCount = total;
+        const totalPages = Math.ceil(totalCount / pageSize);
+        
+        document.getElementById('pagination-info').textContent = `共 ${totalCount} 条记录`;
+        document.getElementById('page-input').value = currentPage;
+        
+        // 更新按钮状态
+        document.getElementById('prev-btn').disabled = currentPage <= 1;
+        document.getElementById('next-btn').disabled = currentPage >= totalPages;
+    }
+
+    function changePageSize() {
+        pageSize = parseInt(document.getElementById('page-size').value);
+        currentPage = 1;
+        loadEmps();
+    }
+
+    function goToPage() {
+        const page = parseInt(document.getElementById('page-input').value);
+        const totalPages = Math.ceil(totalCount / pageSize);
+        
+        if (page >= 1 && page <= totalPages) {
+            currentPage = page;
+            loadEmps();
+        } else {
+            Utils.showMessage('请输入有效的页码', 'warning');
+        }
+    }
+
+    function prevPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            loadEmps();
+        }
+    }
+
+    function nextPage() {
+        const totalPages = Math.ceil(totalCount / pageSize);
+        if (currentPage < totalPages) {
+            currentPage++;
+            loadEmps();
+        }
+    }
+
+    // 批量选择相关函数
+    function toggleSelectAll(checkbox) {
+        const checkboxes = document.querySelectorAll('#emp-table-body input[type="checkbox"]');
+        checkboxes.forEach(cb => {
+            cb.checked = checkbox.checked;
+            toggleSelect(parseInt(cb.value), checkbox.checked);
+        });
+    }
+
+    function toggleSelect(id, checked) {
+        if (checked) {
+            selectedIds.add(id);
+        } else {
+            selectedIds.delete(id);
+        }
+        updateBatchActions();
+    }
+
+    function updateBatchActions() {
+        const batchActions = document.getElementById('batch-actions');
+        const selectedCount = document.getElementById('selected-count');
+        
+        if (selectedIds.size > 0) {
+            batchActions.style.display = 'flex';
+            selectedCount.textContent = `已选择 ${selectedIds.size} 项`;
+        } else {
+            batchActions.style.display = 'none';
+        }
+    }
+
+    function selectAll() {
+        const checkboxes = document.querySelectorAll('#emp-table-body input[type="checkbox"]');
+        checkboxes.forEach(cb => {
+            cb.checked = true;
+            selectedIds.add(parseInt(cb.value));
+        });
+        document.getElementById('select-all').checked = true;
+        updateBatchActions();
+    }
+
+    function selectNone() {
+        const checkboxes = document.querySelectorAll('#emp-table-body input[type="checkbox"]');
+        checkboxes.forEach(cb => {
+            cb.checked = false;
+            selectedIds.delete(parseInt(cb.value));
+        });
+        document.getElementById('select-all').checked = false;
+        updateBatchActions();
+    }
+
+    async function batchDelete() {
+        if (selectedIds.size === 0) {
+            Utils.showMessage('请先选择要删除的员工', 'warning');
+            return;
+        }
+
+        const confirmed = await Utils.confirm(`确定要删除选中的 ${selectedIds.size} 个员工吗？此操作不可撤销。`);
+        if (!confirmed) return;
+
+        try {
+            const result = await API.emp.delete(Array.from(selectedIds).join(','));
+            if (result.code === 1) {
+                Utils.showMessage(`成功删除 ${selectedIds.size} 个员工`, 'success');
+                selectedIds.clear();
+                loadEmps();
+            } else {
+                throw new Error(result.msg || '批量删除失败');
+            }
+        } catch (error) {
+            console.error('批量删除失败:', error);
+            Utils.showMessage('批量删除失败: ' + error.message, 'error');
+        }
+    }
+
+    // 员工CRUD操作
+    function openAddModal() {
+        editingId = null;
+        document.getElementById('modal-title').textContent = '新增员工';
+        document.getElementById('emp-id').value = '';
+        document.getElementById('emp-name').value = '';
+        document.getElementById('emp-gender').value = '';
+        document.getElementById('emp-dept').value = '';
+        document.getElementById('emp-job').value = '';
+        document.getElementById('emp-entry-date').value = '';
+        document.getElementById('avatar-preview').src = '../imgs/01.png';
+        document.getElementById('save-btn').innerHTML = '<i class="fas fa-plus"></i> 新增';
+        document.getElementById('emp-modal').classList.add('show');
+        
+        setTimeout(() => document.getElementById('emp-name').focus(), 100);
+    }
+
+    async function openEditModal(id) {
+        try {
+            const result = await API.emp.getById(id);
+            if (result.code === 1 && result.data) {
+                editingId = id;
+                const emp = result.data;
+                
+                document.getElementById('modal-title').textContent = '编辑员工';
+                document.getElementById('emp-id').value = emp.id;
+                document.getElementById('emp-name').value = emp.name;
+                document.getElementById('emp-gender').value = emp.gender;
+                document.getElementById('emp-dept').value = emp.deptId || '';
+                document.getElementById('emp-job').value = emp.job || '';
+                document.getElementById('emp-entry-date').value = emp.entryDate || '';
+                document.getElementById('avatar-preview').src = emp.avatar || '../imgs/01.png';
+                document.getElementById('save-btn').innerHTML = '<i class="fas fa-save"></i> 保存';
+                document.getElementById('emp-modal').classList.add('show');
+                
+                setTimeout(() => document.getElementById('emp-name').focus(), 100);
+            } else {
+                throw new Error(result.msg || '获取员工信息失败');
+            }
+        } catch (error) {
+            console.error('获取员工信息失败:', error);
+            Utils.showMessage('获取员工信息失败: ' + error.message, 'error');
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('emp-modal').classList.remove('show');
+    }
+
+    async function saveEmp() {
+        const formData = {
+            name: document.getElementById('emp-name').value.trim(),
+            gender: document.getElementById('emp-gender').value,
+            deptId: document.getElementById('emp-dept').value,
+            job: document.getElementById('emp-job').value.trim(),
+            entryDate: document.getElementById('emp-entry-date').value
+        };
+
+        // 表单验证
+        if (!formData.name || !formData.gender || !formData.deptId || !formData.job || !formData.entryDate) {
+            Utils.showMessage('请填写所有必填字段', 'error');
+            return;
+        }
+
+        try {
+            let result;
+            if (editingId) {
+                formData.id = editingId;
+                result = await API.emp.update(formData);
+            } else {
+                result = await API.emp.add(formData);
+            }
+
+            if (result.code === 1) {
+                Utils.showMessage(editingId ? '员工修改成功' : '员工新增成功', 'success');
+                closeModal();
+                await loadEmps();
+            } else {
+                throw new Error(result.msg || '操作失败');
+            }
+        } catch (error) {
+            console.error('保存员工失败:', error);
+            Utils.showMessage('操作失败: ' + error.message, 'error');
+        }
+    }
+
+    async function deleteEmp(id) {
+        const confirmed = await Utils.confirm('确定要删除该员工吗？此操作不可撤销。');
+        if (!confirmed) return;
+
+        try {
+            const result = await API.emp.delete(id);
+            if (result.code === 1) {
+                Utils.showMessage('员工删除成功', 'success');
+                selectedIds.delete(id);
+                await loadEmps();
+            } else {
+                throw new Error(result.msg || '删除失败');
+            }
+        } catch (error) {
+            console.error('删除员工失败:', error);
+            Utils.showMessage('删除失败: ' + error.message, 'error');
+        }
+    }
+
+    // 页面初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        loadEmps();
+        
+        // 点击模态框外部关闭
+        document.getElementById('emp-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // 搜索框回车搜索
+        document.getElementById('search-name').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchEmps();
+            }
+        });
+        
+        // 头像上传预览
+        document.getElementById('avatar-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    Utils.showMessage('图片大小不能超过2MB', 'error');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('avatar-preview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>
+</body>
+</html>
