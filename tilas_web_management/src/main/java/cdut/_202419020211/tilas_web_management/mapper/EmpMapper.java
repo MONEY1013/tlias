@@ -23,7 +23,6 @@ public interface EmpMapper {
     @Update("update emp set name = #{name}, gender = #{gender}, dept_id = #{deptId}, job = #{job}, entry_date = #{entryDate}, avatar = #{avatar}, update_time = now() where id = #{id}")
     void update(Emp emp);
 
-
     List<Emp> page(@Param("page") Integer page, @Param("size") Integer size,
                    @Param("name") String name, @Param("gender") String gender,
                    @Param("entryStart") Date entryStart, @Param("entryEnd") Date entryEnd);
