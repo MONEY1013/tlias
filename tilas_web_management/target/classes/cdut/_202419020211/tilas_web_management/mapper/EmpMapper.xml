@@ -16,8 +16,41 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
+    <select id="page" resultMap="EmpResultMap">
+        select emp.id,emp.name,emp.gender,emp.avatar,dept.name as deptName,emp.job,emp.entry_date,emp.update_time from emp left join dept on emp.dept_id = dept.id
+        <where>
+            <if test="name != null and name != ''">
+                and emp.name like CONCAT('%', #{name}, '%')
+            </if>
+            <if test="gender != null and gender != ''">
+                and emp.gender = #{gender}
+            </if>
+            <if test="entryStart != null">
+                and emp.entry_date >= #{entryStart}
+            </if>
+            <if test="entryEnd != null">
+                and emp.entry_date &lt;= #{entryEnd}
+            </if>
+        </where>
+        limit #{page}, #{size}
+    </select>
 
-
-
+    <select id="count" resultType="java.lang.Long">
+        select count(*) from emp
+        <where>
+            <if test="name != null and name != ''">
+                and emp.name like CONCAT('%', #{name}, '%')
+            </if>
+            <if test="gender != null and gender != ''">
+                and emp.gender = #{gender}
+            </if>
+            <if test="entryStart != null">
+                and emp.entry_date >= #{entryStart}
+            </if>
+            <if test="entryEnd != null">
+                and emp.entry_date &lt;= #{entryEnd}
+            </if>
+        </where>
+    </select>
 
 </mapper>

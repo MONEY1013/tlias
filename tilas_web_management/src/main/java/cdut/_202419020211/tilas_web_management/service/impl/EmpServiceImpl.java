@@ -16,14 +16,6 @@ public class EmpServiceImpl implements EmpService {
     @Autowired
     private EmpMapper empMapper;
 
-
-    @Override
-    public PageResult page(Integer page, Integer size) {
-        Long total = empMapper.count();
-        List<Emp> rows = empMapper.page((page - 1) * size, size);
-        return new PageResult(total, rows);
-    }
-
     @Override
     public void delete(Integer[] ids) {
         for (Integer id : ids) {
@@ -34,5 +26,22 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public void save(String name, String gender, Integer deptId, String job, Date entryDate,String avatar) {
         empMapper.save(name,gender,deptId,job,entryDate,avatar);
+    }
+
+    @Override
+    public Emp getName(Integer id) {
+        return empMapper.getById(id);
+    }
+
+    @Override
+    public void update(Emp emp) {
+        empMapper.update(emp);
+    }
+
+    @Override
+    public PageResult page(Integer page, Integer size, String name, String gender, Date entryStart, Date entryEnd) {
+        Long total = empMapper.count(name, gender, entryStart, entryEnd);
+        List<Emp> rows = empMapper.page((page - 1) * size, size, name, gender, entryStart, entryEnd);
+        return new PageResult(total, rows);
     }
 }

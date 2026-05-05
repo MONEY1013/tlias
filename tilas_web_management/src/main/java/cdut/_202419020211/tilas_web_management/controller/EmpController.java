@@ -30,9 +30,12 @@ public class EmpController {
      * 请求参数：page，pageSize
      */
     public Result page(@RequestParam(defaultValue = "1") Integer page,
-                       @RequestParam(defaultValue = "10") Integer size) {
-        log.info("page:{}, size:{}", page, size);
-        PageResult pageResult = empService.page(page, size);
+                       @RequestParam(defaultValue = "10") Integer size,
+                       @RequestParam(required = false) String name,
+                       @RequestParam(required = false) String gender,
+                       @RequestParam(required = false) Date entryStart,
+                       @RequestParam(required = false) Date entryEnd) {
+        PageResult pageResult = empService.page(page, size, name, gender, entryStart, entryEnd);
         return Result.success(pageResult);
     }
 
@@ -61,4 +64,32 @@ public class EmpController {
         empService.save(emp.getName(), emp.getGender(), emp.getDeptId(), emp.getJob(), emp.getEntryDate(), emp.getAvatar());
         return Result.success();
     }
+
+    /*
+     * 查询员工详情
+     * 请求路径：/emps/{id}
+     * 请求方法：GET
+     * 请求参数：id
+     * */
+    @GetMapping("/{id}")
+    public Result getName(@PathVariable Integer id) {
+        return Result.success(empService.getName(id));
+    }
+
+
+    /*
+     * 更新员工
+     * 请求路径：/emps
+     * 请求方法：PUT
+     * 请求参数：json格式
+     * */
+    @PutMapping
+    public Result update(@RequestBody Emp emp){
+        if (emp.getAvatar() == null || emp.getAvatar().isEmpty()) {
+            emp.setAvatar("/imgs/01.png");
+        }
+        empService.update(emp);
+        return Result.success();
+    }
+
 }
