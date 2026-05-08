@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -25,4 +26,6 @@ public class Emp {
     private String deptName;  // 员工部门名称
 
 
+    // 员工工作经历列表
+    private List<EmpExpr> exprExprList;
 }

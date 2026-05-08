@@ -275,6 +275,311 @@
             color: #007bff;
             font-weight: 600;
         }
+
+        .detail-modal .modal-content {
+            max-width: 700px;
+        }
+
+        .detail-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .detail-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .detail-info-item .label {
+            font-size: 12px;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .detail-info-item .value {
+            font-size: 15px;
+            color: #343a40;
+            font-weight: 500;
+        }
+
+        .detail-avatar-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .detail-avatar-img {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e9ecef;
+        }
+
+        .detail-avatar-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #343a40;
+        }
+
+        .detail-avatar-dept {
+            font-size: 14px;
+            color: #6c757d;
+            margin-top: 2px;
+        }
+
+        .detail-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #343a40;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-section-title i {
+            color: #007bff;
+        }
+
+        .experience-placeholder {
+            text-align: center;
+            padding: 32px 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px dashed #dee2e6;
+        }
+
+        .experience-placeholder i {
+            font-size: 32px;
+            color: #adb5bd;
+            margin-bottom: 8px;
+        }
+
+        .experience-placeholder p {
+            color: #6c757d;
+            margin: 0;
+        }
+
+        .experience-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #ffc107;
+            color: #212529;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .experience-section {
+            margin-top: 20px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .experience-header h4 {
+            margin: 0;
+            font-size: 15px;
+            color: #343a40;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .experience-header h4 i {
+            color: #007bff;
+        }
+
+        .experience-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .experience-item {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 14px 16px;
+            position: relative;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .experience-item:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .experience-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .experience-item-company {
+            font-weight: 600;
+            color: #343a40;
+            font-size: 14px;
+        }
+
+        .experience-item-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        .experience-item-actions button {
+            padding: 4px 8px;
+            font-size: 12px;
+            background: none;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #6c757d;
+            transition: all 0.2s ease;
+        }
+
+        .experience-item-actions button:hover {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        .experience-item-actions button.delete-exp:hover {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+        .experience-item-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        .experience-item-details span i {
+            margin-right: 4px;
+            font-size: 11px;
+        }
+
+        .experience-item-desc {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #495057;
+            line-height: 1.5;
+            padding-top: 8px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .experience-form {
+            background: white;
+            border: 2px dashed #007bff;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+
+        .experience-form-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #007bff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .experience-form .form-row {
+            margin-bottom: 12px;
+        }
+
+        .experience-form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .experience-empty {
+            text-align: center;
+            padding: 20px;
+            color: #adb5bd;
+            font-size: 14px;
+        }
+
+        .experience-empty i {
+            font-size: 24px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+
+        @media (max-width: 768px) {
+            .detail-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-avatar-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .experience-item-header {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .experience-item-details {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
@@ -359,7 +664,7 @@
                         <th>职位</th>
                         <th width="120">入职时间</th>
                         <th width="120">最后修改时间</th>
-                        <th width="150">操作</th>
+                        <th width="190">操作</th>
                     </tr>
                     </thead>
                     <tbody id="emp-table-body">
@@ -395,6 +700,29 @@
                 </button>
                 <button class="btn btn-outline btn-sm" onclick="nextPage()" id="next-btn">
                     下一页 <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 详情模态框 -->
+    <div class="modal detail-modal" id="detail-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="margin: 0;">
+                    <i class="fas fa-user-circle" style="margin-right: 8px; color: #007bff;"></i>
+                    员工详情
+                </h3>
+                <button class="btn btn-outline" onclick="closeDetailModal()" style="padding: 8px;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="detail-modal-body">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeDetailModal()">关闭</button>
+                <button class="btn btn-primary" onclick="editFromDetail()" id="detail-edit-btn">
+                    <i class="fas fa-edit"></i> 编辑
                 </button>
             </div>
         </div>
@@ -480,6 +808,23 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- 员工经历管理模块 -->
+                    <div class="experience-section">
+                        <div class="experience-header">
+                            <h4>
+                                <i class="fas fa-history"></i>
+                                员工经历
+                            </h4>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="addExperienceItem()">
+                                <i class="fas fa-plus"></i> 添加经历
+                            </button>
+                        </div>
+                        <div id="experience-list" class="experience-list">
+                        </div>
+                        <div id="experience-form-container" style="display: none;">
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -496,11 +841,14 @@
 <script src="../js/common.js"></script>
 <script>
     let editingId = null;
+    let detailCurrentId = null;
     let currentPage = 1;
     let pageSize = 20;
     let totalCount = 0;
     let selectedIds = new Set();
     let allDepts = [];
+    let experienceItems = [];
+    let editingExpIndex = -1;
 
     // 页面加载时获取员工列表和部门列表
     async function loadEmps() {
@@ -570,6 +918,9 @@
                 <td>${Utils.formatDateTime(emp.updateTime)}</td>
                 <td>
                     <div class="action-buttons">
+                        <button class="btn btn-outline btn-sm" onclick="openDetailModal(${emp.id})" title="查看详情" style="color: #17a2b8; border-color: #17a2b8;">
+                            <i class="fas fa-eye"></i> 详情
+                        </button>
                         <button class="btn btn-outline btn-sm" onclick="openEditModal(${emp.id})" title="编辑员工">
                             <i class="fas fa-edit"></i> 编辑
                         </button>
@@ -795,9 +1146,31 @@
         document.getElementById('emp-entry-date').value = '';
         document.getElementById('avatar-preview').src = '../imgs/01.png';
         document.getElementById('save-btn').innerHTML = '<i class="fas fa-plus"></i> 新增';
-        document.getElementById('emp-modal').classList.add('show');
         
+        experienceItems = [];
+        editingExpIndex = -1;
+        renderExperienceList();
+        hideExperienceForm();
+        
+        document.getElementById('emp-modal').classList.add('show');
         setTimeout(() => document.getElementById('emp-name').focus(), 100);
+    }
+
+    async function loadExprList(empId) {
+        try {
+            const expResult = await API.empExpr.list(empId);
+            if (expResult.code === 1) {
+                experienceItems = expResult.data || [];
+            } else {
+                experienceItems = [];
+            }
+        } catch (err) {
+            console.error('获取员工经历失败:', err);
+            experienceItems = [];
+        }
+        editingExpIndex = -1;
+        renderExperienceList();
+        hideExperienceForm();
     }
 
     async function openEditModal(id) {
@@ -816,8 +1189,10 @@
                 document.getElementById('emp-entry-date').value = emp.entryDate || '';
                 document.getElementById('avatar-preview').src = emp.avatar || '../imgs/01.png';
                 document.getElementById('save-btn').innerHTML = '<i class="fas fa-save"></i> 保存';
-                document.getElementById('emp-modal').classList.add('show');
                 
+                await loadExprList(id);
+                
+                document.getElementById('emp-modal').classList.add('show');
                 setTimeout(() => document.getElementById('emp-name').focus(), 100);
             } else {
                 throw new Error(result.msg || '获取员工信息失败');
@@ -841,7 +1216,6 @@
             entryDate: document.getElementById('emp-entry-date').value
         };
 
-        // 表单验证
         if (!formData.name || !formData.gender || !formData.deptId || !formData.job || !formData.entryDate) {
             Utils.showMessage('请填写所有必填字段', 'error');
             return;
@@ -853,6 +1227,7 @@
                 formData.id = editingId;
                 result = await API.emp.update(formData);
             } else {
+                formData.exprExprList = experienceItems;
                 result = await API.emp.add(formData);
             }
 
@@ -898,6 +1273,12 @@
                 closeModal();
             }
         });
+
+        document.getElementById('detail-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDetailModal();
+            }
+        });
         
         // 搜索框回车搜索
         document.getElementById('search-name').addEventListener('keypress', function(e) {
@@ -924,6 +1305,349 @@
             }
         });
     });
+
+    // ==================== 详情弹窗功能 ====================
+    async function openDetailModal(id) {
+        try {
+            const result = await API.emp.getById(id);
+            if (result.code === 1 && result.data) {
+                const emp = result.data;
+                detailCurrentId = id;
+                
+                const experiences = emp.exprExprList || [];
+                let expHtml = '';
+                if (experiences.length > 0) {
+                    expHtml = experiences.map(exp => `
+                        <div class="experience-item">
+                            <div class="experience-item-header">
+                                <span class="experience-item-company">${escapeHtml(exp.company || '')}</span>
+                            </div>
+                            <div class="experience-item-details">
+                                <span><i class="fas fa-briefcase"></i>${escapeHtml(exp.exprJob || '')}</span>
+                                <span><i class="fas fa-calendar-alt"></i>${formatExpDate(exp.entryDate)} ~ ${formatExpDate(exp.endDate)}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    expHtml = `
+                        <div class="experience-placeholder">
+                             <i class="fas fa-user-clock"></i>
+                             <p>暂无工作经历信息</p>
+                             <p style="font-size: 12px; margin-top: 4px;">该员工尚未添加工作经历记录</p>
+                        </div>
+                    `;
+                }
+
+                const body = document.getElementById('detail-modal-body');
+                body.innerHTML = `
+                    <div class="detail-avatar-section">
+                        <img class="detail-avatar-img" src="${emp.avatar || '../imgs/01.png'}" alt="头像"
+                             onerror="this.src='../imgs/01.png'">
+                        <div>
+                            <div class="detail-avatar-name">${escapeHtml(emp.name || '')}</div>
+                            <div class="detail-avatar-dept">${emp.job || '-'} · ${emp.deptName || '-'}</div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section-title">
+                        <i class="fas fa-info-circle"></i> 基本信息
+                    </div>
+                    <div class="detail-info-grid">
+                        <div class="detail-info-item">
+                            <span class="label">员工ID</span>
+                            <span class="value">${emp.id}</span>
+                        </div>
+                        <div class="detail-info-item">
+                            <span class="label">姓名</span>
+                            <span class="value">${escapeHtml(emp.name || '')}</span>
+                        </div>
+                        <div class="detail-info-item">
+                            <span class="label">性别</span>
+                            <span class="value">${Utils.getGender(emp.gender)}</span>
+                        </div>
+                        <div class="detail-info-item">
+                            <span class="label">所属部门</span>
+                            <span class="value">${emp.deptName || '-'}</span>
+                        </div>
+                        <div class="detail-info-item">
+                            <span class="label">职位</span>
+                            <span class="value">${emp.job || '-'}</span>
+                        </div>
+                        <div class="detail-info-item">
+                            <span class="label">入职时间</span>
+                            <span class="value">${Utils.formatDate(emp.entryDate)}</span>
+                        </div>
+                        <div class="detail-info-item">
+                            <span class="label">创建时间</span>
+                            <span class="value">${Utils.formatDateTime(emp.createTime)}</span>
+                        </div>
+                        <div class="detail-info-item">
+                            <span class="label">最后修改时间</span>
+                            <span class="value">${Utils.formatDateTime(emp.updateTime)}</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-section-title">
+                        <i class="fas fa-history"></i> 员工经历
+                    </div>
+                    <div class="experience-list">
+                        ${expHtml}
+                    </div>
+                `;
+
+                document.getElementById('detail-modal').classList.add('show');
+            } else {
+                throw new Error(result.msg || '获取员工信息失败');
+            }
+        } catch (error) {
+            console.error('获取员工详情失败:', error);
+            Utils.showMessage('获取员工详情失败: ' + error.message, 'error');
+        }
+    }
+
+    function closeDetailModal() {
+        document.getElementById('detail-modal').classList.remove('show');
+    }
+
+    function editFromDetail() {
+        closeDetailModal();
+        setTimeout(() => openEditModal(detailCurrentId), 300);
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+        return String(text).replace(/[&<>"']/g, m => map[m]);
+    }
+
+    function formatExpDate(date) {
+        if (!date) return '至今';
+        const d = new Date(date);
+        if (isNaN(d.getTime())) return '至今';
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${y}-${m}-${day}`;
+    }
+
+    function formatExpDateInput(date) {
+        if (!date) return '';
+        const d = new Date(date);
+        if (isNaN(d.getTime())) {
+            if (/^\d{4}-\d{2}-\d{2}/.test(date)) return date.substring(0, 10);
+            return '';
+        }
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${y}-${m}-${day}`;
+    }
+
+    // ==================== 员工经历管理功能 ====================
+    function renderExperienceList() {
+        const list = document.getElementById('experience-list');
+        if (!list) return;
+
+        if (experienceItems.length === 0) {
+            list.innerHTML = `
+                <div class="experience-empty">
+                    <i class="fas fa-inbox"></i>
+                    暂无员工经历记录
+                </div>
+            `;
+            return;
+        }
+
+        list.innerHTML = experienceItems.map((exp, index) => `
+            <div class="experience-item" data-index="${index}">
+                <div class="experience-item-header">
+                    <span class="experience-item-company">${escapeHtml(exp.company || '')}</span>
+                    <div class="experience-item-actions">
+                        <button type="button" onclick="editExperienceItem(${index})" title="编辑">
+                            <i class="fas fa-edit"></i> 编辑
+                        </button>
+                        <button type="button" class="delete-exp" onclick="deleteExperienceItem(${index})" title="删除">
+                            <i class="fas fa-trash"></i> 删除
+                        </button>
+                    </div>
+                </div>
+                <div class="experience-item-details">
+                    <span><i class="fas fa-briefcase"></i>${escapeHtml(exp.exprJob || '')}</span>
+                    <span><i class="fas fa-calendar-alt"></i>${formatExpDate(exp.entryDate)} ~ ${formatExpDate(exp.endDate)}</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function addExperienceItem() {
+        editingExpIndex = -1;
+        showExperienceForm();
+    }
+
+    function editExperienceItem(index) {
+        editingExpIndex = index;
+        showExperienceForm(experienceItems[index]);
+    }
+
+    async function deleteExperienceItem(index) {
+        const exp = experienceItems[index];
+        if (editingId && exp.id) {
+            try {
+                const result = await API.empExpr.delete(exp.id);
+                if (result.code === 1) {
+                    Utils.showMessage('已删除该条经历记录', 'success');
+                } else {
+                    throw new Error(result.msg || '删除失败');
+                }
+            } catch (err) {
+                console.error('删除经历失败:', err);
+                Utils.showMessage('删除经历失败: ' + err.message, 'error');
+                return;
+            }
+        } else {
+            Utils.showMessage('已删除该条经历记录', 'info');
+        }
+        experienceItems.splice(index, 1);
+        renderExperienceList();
+        hideExperienceForm();
+    }
+
+    function showExperienceForm(data) {
+        const container = document.getElementById('experience-form-container');
+        if (!container) return;
+
+        const isEdit = editingExpIndex >= 0;
+        const company = data ? escapeHtml(data.company || '') : '';
+        const exprJob = data ? escapeHtml(data.exprJob || '') : '';
+        const entryDate = data ? formatExpDateInput(data.entryDate) : '';
+        const endDate = data ? formatExpDateInput(data.endDate) : '';
+
+        container.innerHTML = `
+            <div class="experience-form">
+                <div class="experience-form-title">
+                    <i class="fas fa-${isEdit ? 'edit' : 'plus-circle'}"></i>
+                    ${isEdit ? '编辑经历' : '添加经历'}
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-building" style="margin-right: 4px; color: #007bff;"></i>
+                            公司名称 *
+                        </label>
+                        <input type="text" class="form-control" id="exp-company" placeholder="请输入公司名称" value="${company}">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-briefcase" style="margin-right: 4px; color: #007bff;"></i>
+                            职位 *
+                        </label>
+                        <input type="text" class="form-control" id="exp-position" placeholder="请输入职位名称" value="${exprJob}">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-calendar-alt" style="margin-right: 4px; color: #007bff;"></i>
+                            开始日期 *
+                        </label>
+                        <input type="date" class="form-control" id="exp-start-date" value="${entryDate}">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-calendar-check" style="margin-right: 4px; color: #007bff;"></i>
+                            结束日期
+                        </label>
+                        <input type="date" class="form-control" id="exp-end-date" value="${endDate}">
+                        <div style="font-size: 11px; color: #6c757d; margin-top: 2px;">留空表示"至今"</div>
+                    </div>
+                </div>
+                <div class="experience-form-actions">
+                    <button type="button" class="btn btn-outline btn-sm" onclick="hideExperienceForm()">取消</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="saveExperienceItem()">
+                        <i class="fas fa-check"></i> ${isEdit ? '更新' : '添加'}
+                    </button>
+                </div>
+            </div>
+        `;
+        container.style.display = 'block';
+        setTimeout(() => document.getElementById('exp-company').focus(), 100);
+    }
+
+    function hideExperienceForm() {
+        const container = document.getElementById('experience-form-container');
+        if (container) {
+            container.style.display = 'none';
+            container.innerHTML = '';
+        }
+        editingExpIndex = -1;
+    }
+
+    async function saveExperienceItem() {
+        const company = document.getElementById('exp-company').value.trim();
+        const exprJob = document.getElementById('exp-position').value.trim();
+        const entryDate = document.getElementById('exp-start-date').value;
+        const endDate = document.getElementById('exp-end-date').value;
+
+        if (!company) {
+            Utils.showMessage('请输入公司名称', 'error');
+            document.getElementById('exp-company').focus();
+            return;
+        }
+        if (!exprJob) {
+            Utils.showMessage('请输入职位名称', 'error');
+            document.getElementById('exp-position').focus();
+            return;
+        }
+        if (!entryDate) {
+            Utils.showMessage('请选择开始日期', 'error');
+            document.getElementById('exp-start-date').focus();
+            return;
+        }
+        if (endDate && entryDate > endDate) {
+            Utils.showMessage('结束日期不能早于开始日期', 'error');
+            document.getElementById('exp-end-date').focus();
+            return;
+        }
+
+        const expData = { empId: editingId, company, exprJob, entryDate, endDate };
+
+        if (!editingId) {
+            if (editingExpIndex >= 0) {
+                experienceItems[editingExpIndex] = expData;
+                Utils.showMessage('经历记录已更新', 'success');
+            } else {
+                experienceItems.push(expData);
+                Utils.showMessage('经历记录已添加', 'success');
+            }
+            renderExperienceList();
+            hideExperienceForm();
+            return;
+        }
+
+        if (editingExpIndex >= 0 && experienceItems[editingExpIndex].id) {
+            expData.id = experienceItems[editingExpIndex].id;
+        }
+
+        try {
+            let result;
+            if (editingExpIndex >= 0 && expData.id) {
+                result = await API.empExpr.update(expData);
+            } else {
+                result = await API.empExpr.add(expData);
+            }
+
+            if (result.code === 1) {
+                Utils.showMessage(editingExpIndex >= 0 ? '经历记录已更新' : '经历记录已添加', 'success');
+                hideExperienceForm();
+                await loadExprList(editingId);
+            } else {
+                throw new Error(result.msg || '操作失败');
+            }
+        } catch (err) {
+            console.error('保存经历失败:', err);
+            Utils.showMessage('保存经历失败: ' + err.message, 'error');
+        }
+    }
 </script>
 </body>
 </html>

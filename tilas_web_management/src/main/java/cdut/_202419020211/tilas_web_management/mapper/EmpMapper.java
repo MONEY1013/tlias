@@ -14,8 +14,9 @@ public interface EmpMapper {
     @Delete("delete from emp where id = #{id}")
     void delete(Integer id);
 
-    @Insert("insert into emp(name,gender,dept_id,job,entry_date,avatar,create_time,update_time) values(#{name},#{gender},#{deptId},#{job},#{entryDate},#{avatar},now(),now())")
-    void save(String name, String gender, Integer deptId, String job, Date entryDate, String avatar);
+    @Insert("insert into emp (name, gender, dept_id, job, entry_date, avatar, create_time, update_time) values (#{name}, #{gender}, #{deptId}, #{job}, #{entryDate}, #{avatar}, now(), now())")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insertEmp(Emp emp);
 
     @Select("select id,name,gender,avatar,dept_id,job,entry_date as entryDate,update_time as updateTime from emp where id = #{id}")
     Emp getById(Integer id);

@@ -149,6 +149,29 @@ const API = {
         })
     },
 
+    // 员工经历管理接口
+    empExpr: {
+        // 获取指定员工的经历列表
+        list: (empId) => request(`/emps/expr/${empId}`),
+
+        // 新增员工经历
+        add: (data) => request('/emps/expr', {
+            method: 'POST',
+            body: JSON.stringify(data)
+        }),
+
+        // 修改员工经历
+        update: (data) => request('/emps/expr', {
+            method: 'PUT',
+            body: JSON.stringify(data)
+        }),
+
+        // 删除员工经历
+        delete: (id) => request(`/emps/expr/${id}`, {
+            method: 'DELETE'
+        })
+    },
+
     // 学生管理接口
     student: {
         list: (params = {}) => {

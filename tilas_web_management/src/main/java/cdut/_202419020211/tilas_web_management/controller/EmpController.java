@@ -1,14 +1,13 @@
 package cdut._202419020211.tilas_web_management.controller;
 
 
-import cdut._202419020211.tilas_web_management.pojo.Emp;
-import cdut._202419020211.tilas_web_management.pojo.EmpResult;
-import cdut._202419020211.tilas_web_management.pojo.PageResult;
-import cdut._202419020211.tilas_web_management.pojo.Result;
+import cdut._202419020211.tilas_web_management.pojo.*;
 import cdut._202419020211.tilas_web_management.service.EmpService;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -58,10 +57,13 @@ public class EmpController {
      * 请求方法：POST
      * 请求参数：json格式
      * */
+
+
     @PostMapping
+    @Transactional
     public Result save(@RequestBody Emp emp) {
         emp.setAvatar("/imgs/01.png");
-        empService.save(emp.getName(), emp.getGender(), emp.getDeptId(), emp.getJob(), emp.getEntryDate(), emp.getAvatar());
+        empService.save(emp);
         return Result.success();
     }
 
@@ -88,6 +90,30 @@ public class EmpController {
             emp.setAvatar("/imgs/01.png");
         }
         empService.update(emp);
+
+        return Result.success();
+    }
+
+    @GetMapping("/expr/{id}")
+    public Result getExpr(@PathVariable Integer id) {
+        return Result.success(empService.getExprExprList(id));
+    }
+
+    @PostMapping("/expr")
+    public Result saveExpr(@RequestBody EmpExpr expr) {
+        empService.saveEmpExpr(expr);
+        return  Result.success();
+    }
+
+    @DeleteMapping("/expr/{id}")
+    public Result delete(@PathVariable Integer id) {
+        empService.deleteExprById(id);
+        return Result.success();
+    }
+
+    @PutMapping("/expr")
+    public Result updateExpr(@RequestBody EmpExpr expr) {
+        empService.updateExpr(expr);
         return Result.success();
     }
 

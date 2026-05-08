@@ -1,11 +1,14 @@
 package cdut._202419020211.tilas_web_management.service.impl;
 
+import cdut._202419020211.tilas_web_management.mapper.EmpExprMapper;
 import cdut._202419020211.tilas_web_management.mapper.EmpMapper;
 import cdut._202419020211.tilas_web_management.pojo.Emp;
+import cdut._202419020211.tilas_web_management.pojo.EmpExpr;
 import cdut._202419020211.tilas_web_management.pojo.PageResult;
 import cdut._202419020211.tilas_web_management.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +19,9 @@ public class EmpServiceImpl implements EmpService {
     @Autowired
     private EmpMapper empMapper;
 
+    @Autowired
+    private EmpExprMapper empExprMapper;
+
     @Override
     public void delete(Integer[] ids) {
         for (Integer id : ids) {
@@ -24,13 +30,23 @@ public class EmpServiceImpl implements EmpService {
     }
 
     @Override
-    public void save(String name, String gender, Integer deptId, String job, Date entryDate,String avatar) {
-        empMapper.save(name,gender,deptId,job,entryDate,avatar);
+    @Transactional
+    public void save(Emp emp) {
+        empMapper.insertEmp(emp);
+        List<EmpExpr> exprList = emp.getExprExprList();
+        if (exprList != null && !exprList.isEmpty()) {
+            for (EmpExpr expr : exprList) {
+                expr.setEmpId(emp.getId());
+            }
+            empExprMapper.batchInsert(exprList);
+        }
     }
 
     @Override
     public Emp getName(Integer id) {
-        return empMapper.getById(id);
+        Emp emp = empMapper.getById(id);
+        emp.setExprExprList(empExprMapper.selectByEmpId(id));
+        return emp;
     }
 
     @Override
@@ -44,4 +60,26 @@ public class EmpServiceImpl implements EmpService {
         List<Emp> rows = empMapper.page((page - 1) * size, size, name, gender, entryStart, entryEnd);
         return new PageResult(total, rows);
     }
+
+    @Override
+    public void updateExpr(EmpExpr expr) {
+        empExprMapper.updateExpr(expr);
+    }
+
+    @Override
+    public Object getExprExprList(Integer id) {
+        return empExprMapper.selectByEmpId(id);
+    }
+
+    @Override
+    public void saveEmpExpr(EmpExpr expr) {
+        empExprMapper.saveEmpExpr(expr);
+    }
+
+    @Override
+    public void deleteExprById(Integer id) {
+        empExprMapper.deleteExprById(id);
+    }
+
+
 }
