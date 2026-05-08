@@ -16,3 +16,9 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+
+aliyun:
+  oss:
+    endpoint: oss-cn-chengdu.aliyuncs.com
+    region: cn-chengdu
+    bucket-name: java-money

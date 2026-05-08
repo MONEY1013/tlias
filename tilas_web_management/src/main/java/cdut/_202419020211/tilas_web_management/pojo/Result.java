@@ -31,4 +31,10 @@ public class Result {
         result.message = "error";
         return result;
     }
+    public static Result error(String message){
+        Result result = new Result();
+        result.code = 0;  //按照接口定义，1表示成功，0表示失败
+        result.message = message;
+        return result;
+    }
 }

@@ -149,6 +149,21 @@ const API = {
         })
     },
 
+    // 文件上传接口
+    upload: {
+        image: (file) => {
+            const formData = new FormData();
+            formData.append('file', file);
+            return fetch(`${API_BASE_URL}/upload`, {
+                method: 'POST',
+                headers: {
+                    ...(localStorage.getItem('token') && { 'token': localStorage.getItem('token') })
+                },
+                body: formData
+            }).then(response => response.json());
+        }
+    },
+
     // 员工经历管理接口
     empExpr: {
         // 获取指定员工的经历列表
