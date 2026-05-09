@@ -190,10 +190,15 @@ const API = {
     // 学生管理接口
     student: {
         list: (params = {}) => {
-            const queryString = new URLSearchParams(params).toString();
+            const queryParams = new URLSearchParams();
+            if (params.name) queryParams.append('name', params.name);
+            if (params.degree) queryParams.append('degree', params.degree);
+            if (params.clazzId) queryParams.append('clazzId', params.clazzId);
+            if (params.page) queryParams.append('page', params.page);
+            if (params.pageSize) queryParams.append('pageSize', params.pageSize);
+            const queryString = queryParams.toString();
             return request(`/students${queryString ? '?' + queryString : ''}`);
         },
-        getAll: () => request('/students/list'),
         getById: (id) => request(`/students/${id}`),
         add: (data) => request('/students', {
             method: 'POST',
@@ -205,28 +210,60 @@ const API = {
         }),
         delete: (ids) => request(`/students?ids=${ids}`, {
             method: 'DELETE'
+        }),
+        violation: (id, score) => request(`/students/violation/${id}/${score}`, {
+            method: 'PUT'
         })
     },
 
     // 班级管理接口
     clazz: {
+        // 分页条件查询班级列表
         list: (params = {}) => {
-            const queryString = new URLSearchParams(params).toString();
-            return request(`/classes${queryString ? '?' + queryString : ''}`);
+            const queryParams = new URLSearchParams();
+            if (params.name) queryParams.append('name', params.name);
+            if (params.begin) queryParams.append('begin', params.begin);
+            if (params.end) queryParams.append('end', params.end);
+            if (params.page) queryParams.append('page', params.page);
+            if (params.pageSize) queryParams.append('pageSize', params.pageSize);
+            const queryString = queryParams.toString();
+            return request(`/clazzs${queryString ? '?' + queryString : ''}`);
         },
-        getAll: () => request('/classes/list'),
-        getById: (id) => request(`/classes/${id}`),
-        add: (data) => request('/classes', {
+        // 查询所有班级
+        getAll: () => request('/clazzs/list'),
+        // 根据ID查询班级
+        getById: (id) => request(`/clazzs/${id}`),
+        // 新增班级
+        add: (data) => request('/clazzs', {
             method: 'POST',
             body: JSON.stringify(data)
         }),
-        update: (data) => request('/classes', {
+        // 修改班级
+        update: (data) => request('/clazzs', {
             method: 'PUT',
             body: JSON.stringify(data)
         }),
-        delete: (ids) => request(`/classes?ids=${ids}`, {
+        // 删除班级
+        delete: (id) => request(`/clazzs/${id}`, {
             method: 'DELETE'
         })
+    },
+
+    report: {
+        empGenderData: () => request('/report/empGenderData'),
+        empJobData: () => request('/report/empJobData'),
+        studentDegreeData: () => request('/report/studentDegreeData'),
+        studentCountData: () => request('/report/studentCountData')
+    },
+
+    log: {
+        page: (params = {}) => {
+            const queryParams = new URLSearchParams();
+            if (params.page) queryParams.append('page', params.page);
+            if (params.pageSize) queryParams.append('pageSize', params.pageSize);
+            const queryString = queryParams.toString();
+            return request(`/log/page${queryString ? '?' + queryString : ''}`);
+        }
     }
 };
 

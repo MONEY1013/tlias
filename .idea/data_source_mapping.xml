@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
+    <file url="file://$PROJECT_DIR$/tilas_web_management/src/main/java/cdut/_202419020211/tilas_web_management/mapper/ClazzMapper.java" value="792375a5-c710-4f19-99c2-b6cbdde32dc0" />
     <file url="file://$PROJECT_DIR$/tilas_web_management/src/main/java/cdut/_202419020211/tilas_web_management/mapper/EmpExprMapper.java" value="792375a5-c710-4f19-99c2-b6cbdde32dc0" />
     <file url="file://$PROJECT_DIR$/tilas_web_management/src/main/java/cdut/_202419020211/tilas_web_management/mapper/EmpMapper.java" value="792375a5-c710-4f19-99c2-b6cbdde32dc0" />
+    <file url="file://$PROJECT_DIR$/tilas_web_management/src/main/java/cdut/_202419020211/tilas_web_management/mapper/StuMapper.java" value="792375a5-c710-4f19-99c2-b6cbdde32dc0" />
+    <file url="file://$PROJECT_DIR$/tilas_web_management/src/main/resources/cdut/_202419020211/tilas_web_management/mapper/ClazzMapper.xml" value="792375a5-c710-4f19-99c2-b6cbdde32dc0" />
     <file url="file://$PROJECT_DIR$/tilas_web_management/src/main/resources/cdut/_202419020211/tilas_web_management/mapper/EmpExprMapper.xml" value="792375a5-c710-4f19-99c2-b6cbdde32dc0" />
     <file url="file://$PROJECT_DIR$/tilas_web_management/src/main/resources/cdut/_202419020211/tilas_web_management/mapper/EmpMapper.xml" value="792375a5-c710-4f19-99c2-b6cbdde32dc0" />
+    <file url="file://$PROJECT_DIR$/tilas_web_management/src/main/resources/cdut/_202419020211/tilas_web_management/mapper/StuMapper.xml" value="792375a5-c710-4f19-99c2-b6cbdde32dc0" />
+    <file url="file://$PROJECT_DIR$/tilas_web_management/src/main/resources/sql/insert_clazz&amp;stu.sql" value="792375a5-c710-4f19-99c2-b6cbdde32dc0" />
     <file url="file://$PROJECT_DIR$/tilas_web_management/src/main/resources/sql/insert_departments.sql" value="792375a5-c710-4f19-99c2-b6cbdde32dc0" />
     <file url="file://$PROJECT_DIR$/tilas_web_management/src/main/resources/sql/insert_employees.sql" value="792375a5-c710-4f19-99c2-b6cbdde32dc0" />
     <file url="file://$PROJECT_DIR$/tilas_web_management/src/main/resources/sql/test.sql" value="792375a5-c710-4f19-99c2-b6cbdde32dc0" />
