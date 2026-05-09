@@ -251,7 +251,7 @@ const API = {
 
     report: {
         empGenderData: () => request('/report/empGenderData'),
-        empJobData: () => request('/report/empJobData'),
+        empDeptData: () => request('/report/empDeptData'),
         studentDegreeData: () => request('/report/studentDegreeData'),
         studentCountData: () => request('/report/studentCountData')
     },
